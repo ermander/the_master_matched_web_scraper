@@ -18,6 +18,7 @@ const links = require("./GoldBet/goldbetLinks");
 
 const main = async () => {
   const start = window.performance.now();
+  console.log("Starting scraping")
   // Initiating selenium web driver
   let driver = await new Builder()
     .withCapabilities(caps)
@@ -31,4 +32,6 @@ const main = async () => {
   console.log(`Time Taken to execute = ${(stop - start) / 1000} seconds`);
 };
 
-main();
+while(true){
+  main()
+}
