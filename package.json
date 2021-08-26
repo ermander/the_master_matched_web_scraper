@@ -1,0 +1,17 @@
+{
+  "name": "the_master_matched_web_scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chromedriver": "^92.0.1",
+    "geckodriver": "^2.0.3",
+    "jsdom": "^17.0.0",
+    "selenium-webdriver": "4.0.0-beta.4"
+  }
+}
