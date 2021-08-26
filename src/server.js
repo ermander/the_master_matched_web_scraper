@@ -15,21 +15,21 @@ const { window } = new JSDOM();
 const goldbetScraper = require("./GoldBet/goldbetScraper");
 
 const main = async () => {
-  const start = window.performance.now();
-  // Initiating selenium web driver
-  let driver = await new Builder()
-    .withCapabilities(caps)
-    .forBrowser("chrome")
-    .setChromeOptions(options)
-    .build();
-    console.log("Starting scraping")
-  await driver.manage().window().setRect({ width: 1500, height: 980 });
-  const serieAOdds = await goldbetScraper(driver, By);
-  console.log(serieAOdds);
-  const stop = window.performance.now();
-  console.log(`Time Taken to execute = ${(stop - start) / 1000} seconds`);
+  while (true) {
+    const start = window.performance.now();
+    // Initiating selenium web driver
+    let driver = await new Builder()
+      .withCapabilities(caps)
+      .forBrowser("chrome")
+      .setChromeOptions(options)
+      .build();
+    console.log("Starting scraping");
+    await driver.manage().window().setRect({ width: 1500, height: 980 });
+    const serieAOdds = await goldbetScraper(driver, By);
+    console.log(serieAOdds);
+    const stop = window.performance.now();
+    console.log(`Time Taken to execute = ${(stop - start) / 1000} seconds`);
+  }
 };
 
-while(true){
-  main()
-}
+main();
