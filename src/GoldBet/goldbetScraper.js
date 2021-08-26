@@ -13,6 +13,7 @@ const goldbetScraper = async (driver, By) => {
     await driver.get(links[i]);
   }
 
+  // Getting the id of all the tabs opened
   const allWindows = await driver.getAllWindowHandles();
 
   for (let i = 1; i < allWindows.length; i++) {
@@ -69,8 +70,6 @@ const goldbetScraper = async (driver, By) => {
           let over_2_5 = await odds[7].getText();
           let goal = await odds[8].getText();
           let no_goal = await odds[9].getText();
-          let even = await odds[10].getText();
-          let not_even = await odds[11].getText();
           const match_info = {
             sport_type,
             start_time,
@@ -87,8 +86,6 @@ const goldbetScraper = async (driver, By) => {
             over_2_5,
             goal,
             no_goal,
-            even,
-            not_even,
           };
           goldbetOdds.push(match_info);
         } catch (error) {}

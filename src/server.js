@@ -5,31 +5,33 @@ const { JSDOM } = require("jsdom");
 // Chrome options
 const chrome = require("selenium-webdriver/chrome");
 const options = new chrome.Options();
-const caps = new Capabilities();
-caps.setPageLoadStrategy("eager");
+// options.headless()
 
 const { window } = new JSDOM();
 
 // Scraping functions
-// GoldBet
 const goldbetScraper = require("./GoldBet/goldbetScraper");
+const eurobetScraper = require("./Eurobet/eurobetScraper");
 
 const main = async () => {
-  while (true) {
-    const start = window.performance.now();
-    // Initiating selenium web driver
-    let driver = await new Builder()
-      .withCapabilities(caps)
-      .forBrowser("chrome")
-      .setChromeOptions(options)
-      .build();
-    console.log("Starting scraping");
-    await driver.manage().window().setRect({ width: 1500, height: 980 });
-    const serieAOdds = await goldbetScraper(driver, By);
-    console.log(serieAOdds);
-    const stop = window.performance.now();
-    console.log(`Time Taken to execute = ${(stop - start) / 1000} seconds`);
-  }
+  const start = window.performance.now();
+  // Initiating selenium web driver
+  let driver = await new Builder()
+    .forBrowser("chrome")
+    .setChromeOptions(options)
+    .build();
+
+  console.log("Starting scraping");
+  // Setting the page size
+  await driver.manage().window().setRect({ width: 800, height: 750 });
+  // Scraping GoldBet
+  // const goldbetOdds = await goldbetScraper(driver, By);
+  // Scraping Eurobet
+  const eurobetOdds = await eurobetScraper(driver, By);
+  //console.log(eurobetOdds)
+
+  const stop = window.performance.now();
+  console.log(`Time Taken to execute = ${(stop - start) / 1000} seconds`);
 };
 
 main();
