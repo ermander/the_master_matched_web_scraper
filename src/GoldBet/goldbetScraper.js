@@ -14,11 +14,9 @@ const goldbetScraper = async (driver, By) => {
   }
 
   const allWindows = await driver.getAllWindowHandles();
-  console.log(allWindows);
 
   for (let i = 1; i < allWindows.length; i++) {
     await driver.switchTo().window(allWindows[i]);
-    console.log(i);
     // Searcing for all the table rows
     try {
       let rows = [];
@@ -33,7 +31,6 @@ const goldbetScraper = async (driver, By) => {
           rows.push(row);
           counter += 1;
         } catch (error) {
-          console.log(error);
           checkRowExistence = false;
         }
       }
@@ -50,9 +47,7 @@ const goldbetScraper = async (driver, By) => {
         sport_type = await liTags[0].getText();
         nation = await liTags[1].getText();
         tournament = await liTags[2].getText();
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
 
       for (let i = 0; i < rows.length; i++) {
         try {
@@ -96,13 +91,9 @@ const goldbetScraper = async (driver, By) => {
             not_even,
           };
           goldbetOdds.push(match_info);
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
-      console.log(goldbetOdds.length);
-      console.log(rows.length);
-      driver.close()
+      driver.close();
     } finally {
       //driver.quit();
     }
