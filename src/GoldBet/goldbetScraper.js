@@ -1,8 +1,20 @@
-// Goldbet soccer links
-const links = require("./goldbetLinks");
+const goldbetScraper = async (chrome, Builder, By, Capabilities, links) => {
+  // Creating the chrome options
+  const options = new chrome.Options();
+  options.windowSize({ width: 1500, height: 850 });
+  // Setting the strategies of the page load
+  const caps = new Capabilities();
+  caps.setPageLoadStrategy("eager");
+  // Initiating selenium web driver
+  let driver = await new Builder()
+    .withCapabilities(caps)
+    .forBrowser("chrome")
+    .setChromeOptions(options)
+    .build();
+  // Opening Selenium
+  await driver.manage().window();
 
-const goldbetScraper = async (driver, By) => {
-  // Creating the objects with the match infoes
+  // Creating the array that will contain the infoes of all the GoldBet Soccer Matches
   let goldbetOdds = [];
 
   // Looping throw all the links in order to open all of them

@@ -14,7 +14,7 @@ const eurobetScraper = async (Builder, By, Capabilities, sleep) => {
     .forBrowser("chrome")
     .setChromeOptions(options)
     .build();
-  // Setting the page size
+  // Opening Selenium
   await driver.manage().window();
 
   // Creating the objects with the match infoes
