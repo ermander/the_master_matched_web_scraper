@@ -8,23 +8,25 @@ const chrome = require("selenium-webdriver/chrome");
 const { JSDOM } = require("jsdom");
 const { window } = new JSDOM();
 
-// FS library, due to writing the odds result in JSON format
-const fs = require("fs");
-
 // Importing all the scraping functions, divided by each bookmaker.
-// GoldBet
 const goldbetScraper = require("./GoldBet/goldbetScraper");
-// Eurobet
 const eurobetScraper = require("./Eurobet/eurobetScraper");
-// Betaland
 const betalandScraper = require("./Betaland/betalandScraper");
+const planetwin365Scraper = require("./Planetwin365/planetwin365Scraper");
+const sisalScraper = require("./Sisal/sisalScraper");
+const bwinScraper = require("./Bwin/bwinScraper");
+const snaiScraper = require("./Snai/snaiScraper");
+const marathonbetScraper = require("./MarathonBet/marathonbetScraper");
 
 // Importing all the links to scrape for each function
-// GoldBet
 const goldbetLinks = require("./GoldBet/goldbetLinks");
-// Eurobet
-// Betaland
 const betalandLinks = require("./Betaland/betalandLinks");
+const planetwin365Links = require("./Planetwin365/Links/planetwin365Links");
+const sisalLinks = require("./Sisal/Links/sisalLinks");
+const bwinLinks = require("./Bwin/Links/bwinLinks");
+const snaiLinks = require("./Snai/Links/snaiLinks");
+const marathobetLinks = require("./MarathonBet/Links/marathonbetLinks");
+const marathonbetLinks = require("./MarathonBet/Links/marathonbetLinks");
 
 /* 
   Some times the scraping functions needs some breaks between tasks
@@ -104,37 +106,173 @@ const mainScraper = async () => {
   // }
 
   // Scraping Betaland
-  console.log("Starting to scrape Betaland odds.");
-  let betalandWhileStatus = true;
-  let betalandOdds = [];
-  while (betalandWhileStatus) {
-    const betalandOddsResult = await betalandScraper(
+  // console.log("Starting to scrape Betaland odds.");
+  // let betalandWhileStatus = true;
+  // let betalandOdds = [];
+  // while (betalandWhileStatus) {
+  //   const betalandOddsResult = await betalandScraper(
+  //     chrome,
+  //     Builder,
+  //     By,
+  //     Capabilities,
+  //     betalandLinks,
+  //     sleep
+  //   );
+  //   if (betalandOddsResult.error) {
+  //     betalandWhileStatus = true; /*
+  //     Implement the console.log() of the specific error
+  //   */
+  //     console.log(
+  //       "I'm restarting the scraping function for Betaland due to some errors"
+  //     );
+  //   } else {
+  //     betalandWhileStatus = false;
+  //     console.log("The process of scraping Betaland has finished successfully");
+  //     betalandOdds = betalandOddsResult;
+  //   }
+  // }
+
+  // Scraping Planetwin365
+  // let planetwin365WhileStatus = true;
+  // let planetwin365Odds = [];
+  // while (planetwin365WhileStatus) {
+  //   const planetwin365OddsResult = await planetwin365Scraper(
+  //     chrome,
+  //     Builder,
+  //     By,
+  //     Capabilities,
+  //     planetwin365Links,
+  //     sleep
+  //   );
+  //   if (planetwin365OddsResult.error) {
+  //     betalandWhileStatus = true;
+  //     // Implement the console.log() of the specific error
+  //     console.log(
+  //       "I'm restarting the scraping function for Planetwin365 due to some errors"
+  //     );
+  //   } else {
+  //     planetwin365WhileStatus = false;
+  //     console.log(
+  //       "The process of scraping Planetwin365 has finished successfully"
+  //     );
+  //     planetwin365Odds = planetwin365OddsResult;
+  //     console.log(planetwin365Odds + "hhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+  //   }
+  // }
+
+  // Scraping Sisal
+  // let sisalWhileStatus = true;
+  // let sisalOdds = [];
+  // while (sisalWhileStatus) {
+  //   try {
+  //     const sisalOddsResult = await sisalScraper(
+  //       chrome,
+  //       Builder,
+  //       By,
+  //       Capabilities,
+  //       sisalLinks,
+  //       sleep
+  //     );
+  //     if (sisalOddsResult.error) {
+  //       sisalWhileStatus = true;
+  //       // Implement the console.log() of the specific error
+  //       console.log(
+  //         "I'm restarting the scraping function for Sisal due to some errors"
+  //       );
+  //     } else {
+  //       sisalWhileStatus = false;
+  //       console.log("The process of scraping Sisal has finished successfully");
+  //       sisalOdds = sisalOddsResult;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  // // Scraping Bwin
+  // let bwinWhileStatus = true;
+  // let bwinOdds = [];
+  // while (bwinWhileStatus) {
+  //   try {
+  //     const bwinOddsResult = await bwinScraper(
+  //       chrome,
+  //       Builder,
+  //       By,
+  //       Capabilities,
+  //       bwinLinks,
+  //       sleep
+  //     );
+  //     if (bwinOddsResult.error) {
+  //       bwinWhileStatus = true;
+  //       console.log(
+  //         "I'm restarting the scraping function for Bwin due to some errors"
+  //       );
+  //     } else {
+  //       bwinWhileStatus = false;
+  //       console.log("he process of scraping Bwin has finished successfully");
+  //       bwinOdds = bwinOddsResult;
+  //       console.log(bwinOddsResult);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  // // Scraping Snai
+  // let snaiWhileStatus = true;
+  // let snaiOdds = [];
+  // while (snaiWhileStatus) {
+  //   try {
+  //     const snaiOddsResults = await snaiScraper(
+  //       chrome,
+  //       Builder,
+  //       By,
+  //       Capabilities,
+  //       snaiLinks,
+  //       sleep
+  //     );
+  //     if (snaiOddsResults.error) {
+  //       snaiWhileStatus = true;
+  //       console.log(
+  //         "I'm restarting the scraping function for Snai due to some errors"
+  //       );
+  //     } else {
+  //       snaiWhileStatus = false;
+  //       console.log("The process of scraping Snai has finished successfully");
+  //       snaiOdds = snaiOddsResults;
+  //       //console.log(snaiOddsResults);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  let marathonbetWhileStatus = true;
+  let marathonbetOdds = [];
+  while (marathonbetWhileStatus) {
+    const marathonbetOddsResults = await marathonbetScraper(
       chrome,
       Builder,
       By,
       Capabilities,
-      betalandLinks,
+      marathonbetLinks,
       sleep
     );
-    if (betalandOddsResult.error) {
-      betalandWhileStatus = true; /* 
-      Implement the console.log() of the specific error
-    */
+    if (marathonbetOddsResults.error) {
+      marathonbetWhileStatus = true;
       console.log(
-        "I'm restarting the scraping function for Betaland due to some errors"
+        "I'm restarting the scraping function for MarathonBet due to some errors"
       );
     } else {
-      betalandWhileStatus = false;
-      console.log("The process of scraping Betaland has finished successfully");
-      betalandOdds = betalandOddsResult;
-      /* 
-        Writing a JSON file with the odds of GoldBet, and returning the console.log()
-        of the error if it is present.
-      */
-      // Create the function to write the results
-      // fs.writeFile("goldbet", goldbetOdds, function (error) {
-      //   if (err) return console.log(err);
-      // });
+      marathonbetWhileStatus = false;
+      console.log(
+        "The process of scraping MarathonBet has finished successfully"
+      );
+      marathonbetOdds = marathonbetOddsResults;
+    }
+    try {
+    } catch (error) {
+      console.log(error);
     }
   }
 
