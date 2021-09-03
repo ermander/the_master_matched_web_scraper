@@ -12,6 +12,7 @@
   "dependencies": {
     "chromedriver": "^92.0.1",
     "geckodriver": "^2.0.3",
+    "googleapis": "^85.0.0",
     "jsdom": "^17.0.0",
     "selenium-webdriver": "4.0.0-beta.4"
   }
