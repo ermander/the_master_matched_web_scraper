@@ -15,12 +15,12 @@ const goldbetScraper = async (
   sleep
 ) => {
   // Creating the chrome options
-  const options = new chrome.Options();
+  let options = new chrome.Options();
   options.windowSize({ width: 1500, height: 850 });
   options.headless();
   // Setting the strategies of the page load
-  const caps = new Capabilities();
-  caps.setPageLoadStrategy("eager");
+  let caps = new Capabilities();
+  caps.setPageLoadStrategy("none");
 
   // Initiating selenium web driver
   let driver = await new Builder()
@@ -35,24 +35,37 @@ const goldbetScraper = async (
   // Creating the array that will contain the infoes of all the GoldBet Soccer Matches
   let goldbetOdds = [];
 
+  // Looping throw all the links in order to open all of them
   for (let i = 0; i < links.length; i++) {
+    // Opening a new windows tab
+    await driver.switchTo().newWindow("tab");
+    // Navigate to Url
+    await driver.get(links[i]);
+  }
+  await sleep(4000)
+  // Getting the id of all the tabs opened
+  const allWindows = await driver.getAllWindowHandles();
+
+  for (let i = 1; i < allWindows.length; i++) {
+    await driver.switchTo().window(allWindows[i]);
     try {
-      await driver.get(links[i]);
+      await driver.switchTo().window(allWindows[i]);
       await sleep(50);
       console.log("Scraping:    ", await driver.getCurrentUrl());
 
       // Sport type
-      let sportType = links[i].split("/")[4];
+      const link = await driver.getCurrentUrl();
+      let sportType = link.split("/")[4];
       sportTypeCapitalized = sportType.charAt(0).toUpperCase();
-      sportType = sportTypeCapitalized + links[i].split("/")[4].slice(1);
+      sportType = sportTypeCapitalized + link.split("/")[4].slice(1);
 
       // Nation
-      let nation = links[i].split("/")[5];
+      let nation = link.split("/")[5];
       nationCapitalized = nation.charAt(0).toUpperCase();
-      nation = nationCapitalized + links[i].split("/")[5].slice(1);
+      nation = nationCapitalized + link.split("/")[5].slice(1);
 
       // Tournament
-      let tournament = links[i].split("/")[6];
+      let tournament = link.split("/")[6];
       let splitCondition = tournament.split("-");
       if (splitCondition.length >= 2) {
         let firstPartCapitalized = splitCondition[0].charAt(0).toUpperCase();
@@ -102,6 +115,7 @@ const goldbetScraper = async (
 
         goldbetOdds.push(matchInfo);
       }
+      driver.close();
     } catch (error) {}
   }
   console.log(goldbetOdds.length);
