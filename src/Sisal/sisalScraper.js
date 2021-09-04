@@ -1,9 +1,5 @@
-const fs = require("fs");
-
 // Scraping funcionts
-const nationTournamentScraper = require("./Scraping Functions/nationTournamentScraper");
-const startDaysAndTimesScaper = require("./Scraping Functions/startDaysAndTimesScaper");
-const homeAndAwayScraper = require("./Scraping Functions/homeAndAwayScraper");
+const infoesScraper = require("./Scraping Functions/infoesScraper");
 const oddsScraper = require("./Scraping Functions/oddsScraper");
 const goalNoGoalScraper = require("./Scraping Functions/goalNoGoalScraper");
 const sisalScraper = async (
@@ -31,51 +27,69 @@ const sisalScraper = async (
   // Creating the array that will contain the infoes of all the GoldBet Soccer Matches
   let sisalOdds = [];
 
-  // Looping throw all the links in order to open all of them
+  await driver.get(links[0]);
+  const coockiesButtonContainer = await driver.findElement(
+    By.className("toast snackbar-cookie js-snackbar-cookie fade show")
+  );
+  const cookiesButton = await coockiesButtonContainer.findElement(
+    By.className("close")
+  );
+  await cookiesButton.click();
+
   for (let i = 0; i < links.length; i++) {
-    // Opening a new windows tab
-    await driver.switchTo().newWindow("tab");
-    // Navigate to Url
-    await driver.get(links[i]);
-  }
-
-  // Getting the id of all the tabs opened
-  const allWindows = await driver.getAllWindowHandles();
-  for (let i = 1; i < allWindows.length; i++) {
-    await driver.switchTo().window(allWindows[i]);
-    await sleep(100);
-    console.log("Scraping:    ", await driver.getCurrentUrl());
-
     try {
-      const nationTournament = await nationTournamentScraper(
+      await driver.get(links[i]);
+      await sleep(1000);
+      console.log("Scraping:    ", await driver.getCurrentUrl());
+
+      // Sport Type
+      let sportType = links[i].split("/")[5];
+      let sportTypeCap = sportType.charAt(0).toUpperCase();
+      sportType = sportTypeCap + links[i].split("/")[5].slice(1);
+
+      // Nation
+      let nation = links[i].split("/")[6];
+      let nationCap = nation.charAt(0).toUpperCase();
+      nation = nationCap + links[i].split("/")[6].slice(1);
+
+      // Tournament
+      let tournament = links[i].split("/")[7];
+      let splitCondition = tournament.split("-");
+      if (splitCondition.length >= 2) {
+        let firstPartCapitalized = splitCondition[0].charAt(0).toUpperCase();
+        let secondPartCapitalized = splitCondition[1].charAt(0).toUpperCase();
+        tournament =
+          firstPartCapitalized +
+          splitCondition[0].slice(1) +
+          " " +
+          secondPartCapitalized +
+          splitCondition[1].slice(1);
+      } else {
+        let capitalize = tournament.charAt(0).toUpperCase();
+        tournament = capitalize + tournament.slice(1);
+      }
+
+      const infoes = await infoesScraper(
         driver,
         By,
-        "div.competitionHeader_labelCompetitionHeader__-fpJZ > p"
+        "grid_noPromoAlert__3VmLi"
       );
-      const startDayAndTimes = await startDaysAndTimesScaper(
-        driver,
-        By,
-        "dateTimeBox_regulatorTime__2dN09 bg-black-blue"
-      );
-      const homeAndAway = await homeAndAwayScraper(
-        driver,
-        By,
-        "d-block text-capitalize"
-      );
+
       const odds = await oddsScraper(
         driver,
         By,
         "selectionButton_selectionPrice__2cboZ"
       );
 
-      // Clicking the button for goal and no goal odds
-      const goalNoGoalButton = await driver.findElements(
+      let goalNoGoalButtonContainer = await driver.findElements(
         By.className(
-          "button_resetPadding__3sfpv button_fluid__X1hQB btn btn-light-grey"
+          "fr-col-md-4 fr-col-xxxl-3 marketBar_columnMarketPadding__1KTop"
         )
       );
-      console.log(goalNoGoalButton.length);
-      await goalNoGoalButton[1].click();
+      let goalNoGoalButton = await goalNoGoalButtonContainer[1].findElements(
+        By.css("button")
+      );
+      await goalNoGoalButton[0].click();
       await sleep(200);
       const goalNoGoal = await goalNoGoalScraper(
         driver,
@@ -83,15 +97,16 @@ const sisalScraper = async (
         "selectionButton_selectionPrice__2cboZ"
       );
 
-      for (let i = 0; i < goalNoGoal.goalOdds.length; i++) {
+      for (let i = 0; i < infoes.homes.length; i++) {
+        console.log("Entro");
         let match_info = {
-          sport_type: "Calcio",
-          nation: nationTournament.nation,
-          tournament: nationTournament.tournament,
-          start_day: startDayAndTimes.startDays[i],
-          start_time: startDayAndTimes.startTimes[i],
-          home: homeAndAway.home[i],
-          away: homeAndAway.away[i],
+          sport_type: sportType,
+          nation: nation,
+          tournament: tournament,
+          start_day: infoes.days[i],
+          start_time: infoes.times[i],
+          home: infoes.homes[i],
+          away: infoes.aways[i],
           one: odds.oneOdds[i],
           x: odds.xOdds[i],
           two: odds.twoOdds[i],
@@ -103,17 +118,11 @@ const sisalScraper = async (
           goal: goalNoGoal.goalOdds[i],
           no_goal: goalNoGoal.noGoalOdds[i],
         };
-        console.log(match_info);
         sisalOdds.push(match_info);
       }
-    } catch (error) {
-      console.log(error);
-    }
-    driver.close();
+    } catch (error) {}
   }
   let sisalOddsFile = JSON.stringify(sisalOdds);
-  fs.writeFileSync("sisal.json", sisalOddsFile);
-  driver.quit();
   return sisalOddsFile;
 };
 

@@ -1,6 +1,6 @@
 const sisalLinks = [
-  "https://www.sisal.it/scommesse-matchpoint/quote/calcio/serie-a",
-  "https://www.sisal.it/scommesse-matchpoint/quote/calcio/serie-b",
+  "https://www.sisal.it/scommesse-matchpoint/quote/calcio/italia/serie-a",
+  "https://www.sisal.it/scommesse-matchpoint/quote/calcio/italia/serie-b",
   "https://www.sisal.it/scommesse-matchpoint/quote/calcio/inghilterra/premier-league",
   "https://www.sisal.it/scommesse-matchpoint/quote/calcio/inghilterra/championship",
   "https://www.sisal.it/scommesse-matchpoint/quote/calcio/deu-bundesliga",
@@ -16,7 +16,7 @@ const sisalLinks = [
   "https://www.sisal.it/scommesse-matchpoint/quote/calcio/austria/bundesliga",
   "https://www.sisal.it/scommesse-matchpoint/quote/calcio/giappone/j-league",
   "https://www.sisal.it/scommesse-matchpoint/quote/calcio/giappone/j-league-2",
-  // MANCA RUSSIA
+  "https://www.sisal.it/scommesse-matchpoint/quote/calcio/russia/premier-league",
   "https://www.sisal.it/scommesse-matchpoint/quote/calcio/usa/mls",
 ];
 

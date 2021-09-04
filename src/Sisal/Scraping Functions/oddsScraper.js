@@ -8,17 +8,17 @@ const oddsScraper = async (driver, By, selector) => {
     let oneTwoOdds = [];
     let under2_5Odds = [];
     let over2_5Odds = [];
+
     let odds = await driver.findElements(By.className(selector));
     for (let i = 0; i < odds.length; i++) {
-      odds[i] = await odds[i].getText();
-      if (i % 8 === 0) oneOdds.push(odds[i]);
-      if (i % 8 === 1) xOdds.push(odds[i]);
-      if (i % 8 === 2) twoOdds.push(odds[i]);
-      if (i % 8 === 3) oneXOdds.push(odds[i]);
-      if (i % 8 === 4) xTwoOdds.push(odds[i]);
-      if (i % 8 === 5) oneTwoOdds.push(odds[i]);
-      if (i % 8 === 6) under2_5Odds.push(odds[i]);
-      if (i % 8 === 7) over2_5Odds.push(odds[i]);
+      if (i % 8 === 0) oneOdds.push(await odds[i].getText());
+      if (i % 8 === 1) xOdds.push(await odds[i].getText());
+      if (i % 8 === 2) twoOdds.push(await odds[i].getText());
+      if (i % 8 === 3) oneXOdds.push(await odds[i].getText());
+      if (i % 8 === 4) xTwoOdds.push(await odds[i].getText());
+      if (i % 8 === 5) oneTwoOdds.push(await odds[i].getText());
+      if (i % 8 === 6) under2_5Odds.push(await odds[i].getText());
+      if (i % 8 === 7) over2_5Odds.push(await odds[i].getText());
     }
     return {
       oneOdds,
@@ -32,7 +32,6 @@ const oddsScraper = async (driver, By, selector) => {
     };
   } catch (error) {
     console.log(error);
-    return error;
   }
 };
 

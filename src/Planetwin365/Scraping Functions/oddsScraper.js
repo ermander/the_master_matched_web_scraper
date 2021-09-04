@@ -1,4 +1,4 @@
-const oneXTwoOddsScraper = async (driver, By, selector) => {
+const oddsScraper = async (driver, By, selector) => {
   try {
     let oneXTwoOdds = await driver.findElements(By.css(selector));
     for (let i = 0; i < oneXTwoOdds.length; i++) {
@@ -13,10 +13,10 @@ const oneXTwoOddsScraper = async (driver, By, selector) => {
     let oneXOdds = [];
     let oneTwoOdds = [];
     let xTwoOdds = [];
-    let under_1_5Odds = [];
-    let over_1_5Odds = [];
-    let under_2_5Odds = [];
-    let over_2_5Odds = [];
+    let under1_5Odds = [];
+    let over1_5Odds = [];
+    let under2_5Odds = [];
+    let over2_5Odds = [];
     let goalOdds = [];
     let noGoalOdds = [];
 
@@ -40,16 +40,16 @@ const oneXTwoOddsScraper = async (driver, By, selector) => {
         xTwoOdds.push(oneXTwoOdds[i]);
       }
       if (i % 12 === 6) {
-        under_1_5Odds.push(oneXTwoOdds[i]);
+        under1_5Odds.push(oneXTwoOdds[i]);
       }
       if (i % 12 === 7) {
-        over_1_5Odds.push(oneXTwoOdds[i]);
+        over1_5Odds.push(oneXTwoOdds[i]);
       }
       if (i % 12 === 8) {
-        under_2_5Odds.push(oneXTwoOdds[i]);
+        under2_5Odds.push(oneXTwoOdds[i]);
       }
       if (i % 12 === 9) {
-        over_2_5Odds.push(oneXTwoOdds[i]);
+        over2_5Odds.push(oneXTwoOdds[i]);
       }
       if (i % 12 === 10) {
         goalOdds.push(oneXTwoOdds[i]);
@@ -65,10 +65,10 @@ const oneXTwoOddsScraper = async (driver, By, selector) => {
       oneXOdds,
       oneTwoOdds,
       xTwoOdds,
-      under_1_5Odds,
-      over_1_5Odds,
-      under_2_5Odds,
-      over_2_5Odds,
+      under1_5Odds,
+      over1_5Odds,
+      under2_5Odds,
+      over2_5Odds,
       goalOdds,
       noGoalOdds,
     };
@@ -77,4 +77,4 @@ const oneXTwoOddsScraper = async (driver, By, selector) => {
   }
 };
 
-module.exports = oneXTwoOddsScraper;
+module.exports = oddsScraper;

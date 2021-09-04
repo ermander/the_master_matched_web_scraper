@@ -15,7 +15,6 @@ const goalNoGoalScraper = async (driver, By, selector) => {
     };
   } catch (error) {
     console.log(error);
-    return error;
   }
 };
 

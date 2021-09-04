@@ -43,7 +43,7 @@ const goldbetScraper = async (
 
       // Sport type
       let sportType = links[i].split("/")[4];
-      sportTypeCapitalized = sportType.charAt(0).toUpperCase();
+      let sportTypeCapitalized = sportType.charAt(0).toUpperCase();
       sportType = sportTypeCapitalized + links[i].split("/")[4].slice(1);
 
       // Nation
@@ -104,7 +104,6 @@ const goldbetScraper = async (
       }
     } catch (error) {}
   }
-  console.log(goldbetOdds.length);
   const goldbetOddsFile = JSON.stringify(goldbetOdds);
   return goldbetOddsFile;
 };

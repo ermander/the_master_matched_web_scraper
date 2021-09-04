@@ -43,6 +43,8 @@ const sisalScraper = require("./Sisal/sisalScraper");
 const bwinScraper = require("./Bwin/bwinScraper");
 const snaiScraper = require("./Snai/snaiScraper");
 const marathonbetScraper = require("./MarathonBet/marathonbetScraper");
+const betterScraper = require("./Better/betterScraper");
+const betfairScraper = require("./Betfair/betfairScraper");
 
 // Importing all the links to scrape for each function
 const goldbetLinks = require("./GoldBet/Links/goldbetLinks");
@@ -52,6 +54,8 @@ const sisalLinks = require("./Sisal/Links/sisalLinks");
 const bwinLinks = require("./Bwin/Links/bwinLinks");
 const snaiLinks = require("./Snai/Links/snaiLinks");
 const marathonbetLinks = require("./MarathonBet/Links/marathonbetLinks");
+const betterLinks = require("./Better/Links/betterLinks");
+const betfairLinks = require("./Betfair/Links/betfairLinks")
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -63,31 +67,31 @@ const mainScraper = async () => {
   // Printing in the console that the function is starting the web scraping proccess
   console.log("Starting the main scraper function.");
 
-  // GoldBet
-  try {
-    console.log("Scraping GoldBet");
-    const goldbetOdds = await goldbetScraper(
-      chrome,
-      Builder,
-      By,
-      Capabilities,
-      goldbetLinks,
-      sleep
-    );
-    await drive.files.update({
-      fileId: "1QeDD1MosPOkFagOVWttzyiYQ7Y9Imax8",
-      media: {
-        mimeType: "application/json",
-        body: goldbetOdds,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  // // GoldBet
+  // try {
+  //   console.log("Scraping GoldBet");
+  //   const goldbetOdds = await goldbetScraper(
+  //     chrome,
+  //     Builder,
+  //     By,
+  //     Capabilities,
+  //     goldbetLinks,
+  //     sleep
+  //   );
+  //   await drive.files.update({
+  //     fileId: "1QeDD1MosPOkFagOVWttzyiYQ7Y9Imax8",
+  //     media: {
+  //       mimeType: "application/json",
+  //       body: goldbetOdds,
+  //     },
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
 
-  // // Planetwin365
+  // Planetwin365
   // console.log("Scraping Planetwin365");
-  // await planetwin365Scraper(
+  // const planetwin365Odds = await planetwin365Scraper(
   //   chrome,
   //   Builder,
   //   By,
@@ -95,9 +99,61 @@ const mainScraper = async () => {
   //   planetwin365Links,
   //   sleep
   // );
-  // // Sisal
-  // console.log("Scraping Sisal");
-  // await sisalScraper(chrome, Builder, By, Capabilities, sisalLinks, sleep);
+  // await drive.files.update({
+  //   fileId: "11YsV_S9AYocfw878Iyf6MpUjvXZGE-NL",
+  //   media: {
+  //     mimeType: "application/json",
+  //     body: planetwin365Odds,
+  //   },
+  // });
+
+  // Sisal
+  //console.log("Scraping Sisal");
+  // const sisalOdds = await sisalScraper(
+  //   chrome,
+  //   Builder,
+  //   By,
+  //   Capabilities,
+  //   sisalLinks,
+  //   sleep
+  // );
+  // await drive.files.update({
+  //   fileId: "121B6uiNWX_Z5hVS_OaeftHlsodZqRZce",
+  //   media: {
+  //     mimeType: "application/json",
+  //     body: sisalOdds,
+  //   },
+  // });
+
+  // console.log("Scraping Better");
+  // const betterOdds = await betterScraper(
+  //   chrome,
+  //   Builder,
+  //   By,
+  //   Capabilities,
+  //   betterLinks,
+  //   sleep
+  // );
+
+  // await drive.files.update({
+  //   fileId: "1oLX-gLXMfrqe2FaNd8OX7qkZNYItqAM1",
+  //   media: {
+  //     mimeType: "application/json",
+  //     body: betterOdds,
+  //   },
+  // });
+
+  // Betfair
+  console.log("Scraping Betfair");
+  const betfairOdds = await betfairScraper(
+    chrome,
+    Builder,
+    By,
+    Capabilities,
+    betfairLinks,
+    sleep
+  );
+
   // // Betaland
   // console.log("Scraping Betaland");
   // await betalandScraper(
